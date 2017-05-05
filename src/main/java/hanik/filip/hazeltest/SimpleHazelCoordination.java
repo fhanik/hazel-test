@@ -17,12 +17,12 @@ public class SimpleHazelCoordination {
         Config cfg = new Config();
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
         Member localMember = instance.getCluster().getLocalMember();
-        ConcurrentMap<String, Member> mapCustomers = instance.getMap("coordination");
-        Member coordinator = ofNullable(mapCustomers.putIfAbsent(I_WAS_HERE_FIRST, localMember)).orElse(localMember);
-        if (coordinator.equals(localMember)) {
+        ConcurrentMap<String, String> mapCustomers = instance.getMap("coordination");
+        String coordinator = ofNullable(mapCustomers.putIfAbsent(I_WAS_HERE_FIRST, localMember.getUuid())).orElse(localMember.getUuid());
+        if (coordinator.equals(localMember.getUuid())) {
             System.out.println("We are started!");
         } else {
-            System.out.println("System already running, originally started by:"+coordinator);
+            System.out.println("System already running, originally started by member UUID:"+coordinator);
         }
     }
 }
