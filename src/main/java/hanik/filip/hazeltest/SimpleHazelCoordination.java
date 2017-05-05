@@ -17,8 +17,8 @@ public class SimpleHazelCoordination {
         Config cfg = new Config();
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
         Member localMember = instance.getCluster().getLocalMember();
-        ConcurrentMap<String, String> mapCustomers = instance.getMap("coordination");
-        String coordinator = ofNullable(mapCustomers.putIfAbsent(I_WAS_HERE_FIRST, localMember.getUuid())).orElse(localMember.getUuid());
+        ConcurrentMap<String, String> coordinationMap = instance.getMap("coordination");
+        String coordinator = ofNullable(coordinationMap.putIfAbsent(I_WAS_HERE_FIRST, localMember.getUuid())).orElse(localMember.getUuid());
         if (coordinator.equals(localMember.getUuid())) {
             System.out.println("We are started!");
         } else {
