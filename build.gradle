@@ -1,0 +1,29 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+apply plugin: 'idea'
+apply plugin: 'application'
+
+mainClassName = 'hanik.filip.hazeltest.SimpleHazelCoordination'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jar {
+  baseName = 'hazel-test'
+  version = '0.1.0'
+  manifest {
+    attributes 'Main-Class': 'hanik.filip.hazeltest.SimpleHazelCoordination'
+  }
+}
+
+
+dependencies {
+  compile group: 'com.hazelcast', name: 'hazelcast', version: '3.8.1'
+}
